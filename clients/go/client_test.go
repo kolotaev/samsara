@@ -40,7 +40,7 @@ func TestNewClient_DoesNotCreateClientWithBadConfigGiven(t *testing.T) {
 
 func TestNewClient_CreatesClientWithCorrectConfigGiven(t *testing.T) {
 	config := NewConfig()
-	config.url = "http://test.com"
+	config.Url = "http://test.com"
 
 	client, err := NewClient(config)
 
@@ -54,8 +54,8 @@ func TestNewClient_CreatesClientWithCorrectConfigGiven(t *testing.T) {
 
 func TestNewClient_CreatesClientWithFieldsProperlySet(t *testing.T) {
 	config := NewConfig()
-	config.url = "http://test.com"
-	config.maxBufferSize = 555
+	config.Url = "http://test.com"
+	config.MaxBufferSize = 555
 
 	client, _ := NewClient(config)
 
@@ -91,10 +91,10 @@ func TestNewClient_ShouldStartPublishingThreadDependingOnConfiguration(t *testin
 		defer mockServer.Close()
 
 		config := NewConfig()
-		config.url = mockServer.URL
-		config.minBufferSize = 0
-		config.publishInterval = 1
-		config.startPublishingThread = set.startPublishing
+		config.Url = mockServer.URL
+		config.MinBufferSize = 0
+		config.PublishInterval = 1
+		config.StartPublishingThread = set.startPublishing
 
 		client, err := NewClient(config)
 
@@ -126,7 +126,7 @@ func TestClient_PublishEvents_ShouldPostEventsToIngestionAPI(t *testing.T) {
 	defer mockServer.Close()
 
 	config := NewConfig()
-	config.url = mockServer.URL
+	config.Url = mockServer.URL
 	client, _ := NewClient(config)
 
 	data := []Event{
@@ -145,7 +145,7 @@ func TestClient_PublishEvents_ShouldPostEventsToIngestionAPI(t *testing.T) {
 
 func TestClient_PublishEvents_ReturnsFalseInCasePostFailed(t *testing.T) {
 	config := NewConfig()
-	config.url = "http://test.com"
+	config.Url = "http://test.com"
 	client, _ := NewClient(config)
 	client.publisher = &PublisherMock{fakePost: func(events []Event) bool { return false }}
 
@@ -157,7 +157,7 @@ func TestClient_PublishEvents_ReturnsFalseInCasePostFailed(t *testing.T) {
 
 func TestClient_PublishEvents_ReturnsTrueInCasePostSucceeded(t *testing.T) {
 	config := NewConfig()
-	config.url = "http://test.com"
+	config.Url = "http://test.com"
 	client, _ := NewClient(config)
 	client.publisher = &PublisherMock{fakePost: func(events []Event) bool { return true }}
 
@@ -169,7 +169,7 @@ func TestClient_PublishEvents_ReturnsTrueInCasePostSucceeded(t *testing.T) {
 
 func TestClient_PublishEvents_DoesNotPostToIngestionIfOneOfTheEventsIsInvalid(t *testing.T) {
 	config := NewConfig()
-	config.url = "http://test.com"
+	config.Url = "http://test.com"
 
 	data := []Event{
 		{
@@ -201,8 +201,8 @@ func TestClient_PublishEvents_DoesNotPostToIngestionIfOneOfTheEventsIsInvalid(t 
 
 func TestClient_PublishEvents_EnrichesEachEventIfNeeded(t *testing.T) {
 	config := NewConfig()
-	config.url = "http://test.com"
-	config.sourceId = "secret"
+	config.Url = "http://test.com"
+	config.SourceId = "secret"
 
 	data := []Event{
 		{
@@ -253,10 +253,10 @@ func TestClient_PublishEvents_EnrichesEachEventIfNeeded(t *testing.T) {
 
 func TestClient_RecordEvent_AddsEventToQueue(t *testing.T) {
 	config := NewConfig()
-	config.url = "http://test.com"
-	config.startPublishingThread = false
-	config.maxBufferSize = 1
-	config.minBufferSize = 1
+	config.Url = "http://test.com"
+	config.StartPublishingThread = false
+	config.MaxBufferSize = 1
+	config.MinBufferSize = 1
 	client, _ := NewClient(config)
 
 	event := Event{
@@ -276,11 +276,11 @@ func TestClient_RecordEvent_AddsEventToQueue(t *testing.T) {
 
 func TestClient_RecordEvent_EnrichesEventCorrectly(t *testing.T) {
 	config := NewConfig()
-	config.url = "http://test.com"
-	config.startPublishingThread = false
-	config.maxBufferSize = 1
-	config.minBufferSize = 1
-	config.sourceId = "secret"
+	config.Url = "http://test.com"
+	config.StartPublishingThread = false
+	config.MaxBufferSize = 1
+	config.MinBufferSize = 1
+	config.SourceId = "secret"
 	client, _ := NewClient(config)
 
 	event := Event{
@@ -300,11 +300,11 @@ func TestClient_RecordEvent_EnrichesEventCorrectly(t *testing.T) {
 
 func TestClient_RecordEvent_ValidatesEventAndDoesNotPutItToQueue(t *testing.T) {
 	config := NewConfig()
-	config.url = "http://test.com"
-	config.startPublishingThread = false
-	config.maxBufferSize = 1
-	config.minBufferSize = 1
-	config.sourceId = "secret"
+	config.Url = "http://test.com"
+	config.StartPublishingThread = false
+	config.MaxBufferSize = 1
+	config.MinBufferSize = 1
+	config.SourceId = "secret"
 	client, _ := NewClient(config)
 
 	event := Event{
@@ -345,11 +345,11 @@ func TestClient_Posting_PostsOnlyWhenQueueThresholdIsReached(t *testing.T) {
 
 	for i, set := range sets {
 		config := NewConfig()
-		config.url = "https://test.com"
-		config.maxBufferSize = 5
-		config.minBufferSize = set.threshold
-		config.publishInterval = 1
-		config.startPublishingThread = false
+		config.Url = "https://test.com"
+		config.MaxBufferSize = 5
+		config.MinBufferSize = set.threshold
+		config.PublishInterval = 1
+		config.StartPublishingThread = false
 
 		events := []Event{
 			{

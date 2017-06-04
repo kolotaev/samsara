@@ -30,7 +30,7 @@ $ go get github.com/samsara/samsara/clients/go
 
 ### TODO
 
-- [ ] support `"sendClientStats"` option
+- [ ] support `"SendClientStats"` option
 
 ## License
 

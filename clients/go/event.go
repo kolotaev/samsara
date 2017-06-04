@@ -11,7 +11,7 @@ type Event map[string]interface{}
 // Enriches missing event properties with ones from config.
 func (e Event) enrich(config Config) {
 	if e["sourceId"] == nil {
-		e["sourceId"] = config.sourceId
+		e["sourceId"] = config.SourceId
 	}
 	if e["timestamp"] == nil {
 		e["timestamp"] = Timestamp()

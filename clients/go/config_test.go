@@ -8,14 +8,14 @@ import (
 
 func TestNewConfig(t *testing.T) {
 	expected := Config{
-		url:                   "",
-		sourceId:              "",
-		startPublishingThread: true,
-		publishInterval:       30000,
-		maxBufferSize:         10000,
-		minBufferSize:         100,
-		sendTimeout:           30000,
-		compression:           "gzip",
+		Url:                   "",
+		SourceId:              "",
+		StartPublishingThread: true,
+		PublishInterval:       30000,
+		MaxBufferSize:         10000,
+		MinBufferSize:         100,
+		SendTimeout:           30000,
+		Compression:           "gzip",
 	}
 
 	initial := NewConfig()
@@ -27,14 +27,14 @@ func TestNewConfig(t *testing.T) {
 func TestConfig_Validate_WithCorrectData(t *testing.T) {
 	config := NewConfig()
 
-	config.startPublishingThread = false
-	config.sourceId = "some-source-id"
-	config.publishInterval = 20
-	config.sendTimeout = 10
-	config.compression = "none"
-	config.url = "http://foo.bar"
-	config.maxBufferSize = 8
-	config.minBufferSize = 4
+	config.StartPublishingThread = false
+	config.SourceId = "some-source-id"
+	config.PublishInterval = 20
+	config.SendTimeout = 10
+	config.Compression = "none"
+	config.Url = "http://foo.bar"
+	config.MaxBufferSize = 8
+	config.MinBufferSize = 4
 
 	if err := config.Validate(); err != nil {
 		t.Errorf("Config with correct data should not raise errors. Given config = %+v, Error = %s", config, err)
@@ -50,7 +50,7 @@ func TestConfig_Validate_WithInvalidData(t *testing.T) {
 			"URL for Ingestion API should be specified.",
 			func() Config {
 				config := NewConfig()
-				config.url = ""
+				config.Url = ""
 				return config
 			}(),
 		},
@@ -58,8 +58,8 @@ func TestConfig_Validate_WithInvalidData(t *testing.T) {
 			"Invalid interval time for Samsara client.",
 			func() Config {
 				config := NewConfig()
-				config.url = "http://foo.bar"
-				config.publishInterval = 0
+				config.Url = "http://foo.bar"
+				config.PublishInterval = 0
 				return config
 			}(),
 		},
@@ -67,8 +67,8 @@ func TestConfig_Validate_WithInvalidData(t *testing.T) {
 			"Incorrect compression option.",
 			func() Config {
 				config := NewConfig()
-				config.url = "http://foo.bar"
-				config.compression = "zip"
+				config.Url = "http://foo.bar"
+				config.Compression = "zip"
 				return config
 			}(),
 		},
@@ -76,9 +76,9 @@ func TestConfig_Validate_WithInvalidData(t *testing.T) {
 			"maxBufferSize can not be less than minBufferSize.",
 			func() Config {
 				config := NewConfig()
-				config.url = "http://foo.bar"
-				config.maxBufferSize = 4
-				config.minBufferSize = 8
+				config.Url = "http://foo.bar"
+				config.MaxBufferSize = 4
+				config.MinBufferSize = 8
 				return config
 			}(),
 		},

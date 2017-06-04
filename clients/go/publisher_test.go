@@ -23,7 +23,7 @@ func TestPublisher_ApiPath(t *testing.T) {
 	defer mockServer.Close()
 
 	config := NewConfig()
-	config.url = mockServer.URL
+	config.Url = mockServer.URL
 
 	publisher := Publisher{config}
 	publisher.Post([]Event{{"sourceId": "foo", "eventName": "baz", "timestamp": int64(1479988864057)}})
@@ -48,8 +48,8 @@ func TestPublisher_Post_HeadersCheck(t *testing.T) {
 	defer mockServer.Close()
 
 	config := NewConfig()
-	config.url = mockServer.URL
-	config.compression = "none"
+	config.Url = mockServer.URL
+	config.Compression = "none"
 
 	publisher := Publisher{config}
 	publisher.Post([]Event{{"sourceId": "foo", "eventName": "baz", "timestamp": int64(1479988864057)}})
@@ -118,8 +118,8 @@ func TestPublisher_Post_DataTransmissionCheck(t *testing.T) {
 		defer mockServer.Close()
 
 		config := NewConfig()
-		config.url = mockServer.URL
-		config.compression = set.compression
+		config.Url = mockServer.URL
+		config.Compression = set.compression
 
 		publisher := Publisher{config}
 		publisher.Post(set.data)
@@ -152,8 +152,8 @@ func TestPublisher_Post_SendTimeout(t *testing.T) {
 		defer mockServer.Close()
 
 		config := NewConfig()
-		config.url = mockServer.URL
-		config.sendTimeout = uint32(set.timeout)
+		config.Url = mockServer.URL
+		config.SendTimeout = uint32(set.timeout)
 
 		publisher := Publisher{config}
 		success := publisher.Post([]Event{{"sourceId": "foo"}})
@@ -242,7 +242,7 @@ func TestPublisher_Post_ResponseStatus(t *testing.T) {
 		defer mockServer.Close()
 
 		config := NewConfig()
-		config.url = mockServer.URL
+		config.Url = mockServer.URL
 
 		publisher := Publisher{config}
 		success := publisher.Post([]Event{{"sourceId": "foo"}})

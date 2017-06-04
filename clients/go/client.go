@@ -22,10 +22,10 @@ func NewClient(config Config) (*Client, error) {
 	client := &Client{
 		config:    config,
 		publisher: &Publisher{config},
-		queue:     NewRingBuffer(config.maxBufferSize),
+		queue:     NewRingBuffer(config.MaxBufferSize),
 	}
 
-	if config.startPublishingThread {
+	if config.StartPublishingThread {
 		go client.publishing()
 	}
 
@@ -59,9 +59,9 @@ func (c *Client) RecordEvent(event Event) error {
 // Used in a background thread.
 func (c *Client) publishing() {
 	for {
-		if c.queue.Count() >= c.config.minBufferSize {
+		if c.queue.Count() >= c.config.MinBufferSize {
 			c.queue.Flush(c.publisher.Post)
 		}
-		time.Sleep(time.Duration(c.config.publishInterval) * time.Millisecond)
+		time.Sleep(time.Duration(c.config.PublishInterval) * time.Millisecond)
 	}
 }

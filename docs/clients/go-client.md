@@ -24,8 +24,8 @@ And then to create client instance:
 
 ```go
 config := client.NewConfig()
-config.url = "http://my.samsara.server:9000/"
-config.sourceId = "source identifier"
+config.Url = "http://my.samsara.server:9000/"
+config.SourceId = "source identifier"
 
 myClient, err := client.NewClient(config)
 if err != nil {
@@ -176,44 +176,44 @@ the client is restarted.
 ```go
 type Config struct {
   // Samsara ingestion api endpoint "http://samsara-ingestion.local/"
-  url string
+  Url string
 
   // Identifier of the source of these events.
   // OPTIONAL used only for record-event
-  sourceId string
+  SourceId string
 
   // Start the publishing thread?
   // default = true
-  startPublishingThread bool
+  StartPublishingThread bool
 
   // How often should the events being sent to Samsara
   // in milliseconds.
   // default = 30s
-  publishInterval uint32
+  PublishInterval uint32
 
   // Max size of the buffer.
   // When buffer is full older events are dropped.
-  maxBufferSize int64
+  MaxBufferSize int64
 
   // Minimum number of events that must be in the buffer
   // before attempting to publish them.
-  minBufferSize int64
+  MinBufferSize int64
 
   // Network timeout for send operations
   // in milliseconds.
   // default 30s
-  sendTimeout uint32
+  SendTimeout uint32
 
   // Should the payload be compressed?
   // allowed values: "gzip", "none"
-  compression string
+  Compression string
 
   // NOT CURRENTLY SUPPORTED
   // Add Samsara client statistics events
   // this helps you to understand whether the
   // buffer size and publish-intervals are
   // adequately configured.
-  // sendClientStats bool
+  // SendClientStats bool
 }
 ```
 

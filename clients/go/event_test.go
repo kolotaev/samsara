@@ -9,7 +9,7 @@ import (
 
 func TestEvent_Enrich_PopulatesWithMissingAttributes(t *testing.T) {
 	config := NewConfig()
-	config.sourceId = "mobile"
+	config.SourceId = "mobile"
 
 	sets := []Event{
 		{
@@ -43,7 +43,7 @@ func TestEvent_Enrich_PopulatesWithMissingAttributes(t *testing.T) {
 
 func TestEvent_Enrich_PreservesExistingAttributeValues(t *testing.T) {
 	config := NewConfig()
-	config.sourceId = "devops.bar"
+	config.SourceId = "devops.bar"
 
 	event := Event{
 		"eventName": "foo",
@@ -65,7 +65,7 @@ func TestEvent_Enrich_PreservesExistingAttributeValues(t *testing.T) {
 
 func TestEvent_Enrich_PreservesAdditionalExistingAttributeValues(t *testing.T) {
 	config := NewConfig()
-	config.sourceId = "devops.bar"
+	config.SourceId = "devops.bar"
 
 	event := Event{
 		"eventName": "中文",
@@ -95,7 +95,7 @@ func TestEvent_Enrich_PreservesAdditionalExistingAttributeValues(t *testing.T) {
 
 func TestEvent_Enrich_PopulatesWithCorrectTimestamp(t *testing.T) {
 	config := NewConfig()
-	config.sourceId = "devops.bar"
+	config.SourceId = "devops.bar"
 
 	event := Event{
 		"eventName": "中文",
@@ -110,7 +110,7 @@ func TestEvent_Enrich_PopulatesWithCorrectTimestamp(t *testing.T) {
 
 func TestEvent_Enrich_PopulatesWithCorrectSourceId(t *testing.T) {
 	config := NewConfig()
-	config.sourceId = "devops.bar"
+	config.SourceId = "devops.bar"
 
 	event := Event{
 		"eventName": "John",

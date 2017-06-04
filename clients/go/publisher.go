@@ -35,17 +35,17 @@ func (p *Publisher) Post(data []Event) bool {
 	}
 
 	var buffer *bytes.Buffer
-	if p.config.compression == "gzip" {
+	if p.config.Compression == "gzip" {
 		buffer = gzipWrap(jsonData)
 	} else {
 		buffer = noneWrap(jsonData)
 	}
 
-	req, _ := http.NewRequest("POST", strings.Trim(p.config.url, "/")+API_PATH, buffer)
+	req, _ := http.NewRequest("POST", strings.Trim(p.config.Url, "/")+API_PATH, buffer)
 	p.setHeaders(req)
 
 	client := &http.Client{
-		Timeout: time.Duration(p.config.sendTimeout) * time.Millisecond,
+		Timeout: time.Duration(p.config.SendTimeout) * time.Millisecond,
 	}
 	resp, err := client.Do(req)
 	if err != nil {
@@ -61,7 +61,7 @@ func (p *Publisher) Post(data []Event) bool {
 // Helper method to generate HTTP request headers for Ingestion API.
 func (p *Publisher) setHeaders(req *http.Request) {
 	var compression string
-	if p.config.compression == "gzip" {
+	if p.config.Compression == "gzip" {
 		compression = "gzip"
 	} else {
 		compression = "identity"
