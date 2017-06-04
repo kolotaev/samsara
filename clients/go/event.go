@@ -14,7 +14,7 @@ func (e Event) enrich(config Config) {
 		e["sourceId"] = config.sourceId
 	}
 	if e["timestamp"] == nil {
-		e["timestamp"] = timestamp()
+		e["timestamp"] = Timestamp()
 	}
 }
 

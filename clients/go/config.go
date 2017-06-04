@@ -4,7 +4,7 @@ import (
 	"time"
 )
 
-// Samsara SDK default configuration.
+// Config is Samsara SDK default configuration.
 type Config struct {
 	// Samsara ingestion api endpoint "http://samsara-ingestion.local/"
 	url string
@@ -14,25 +14,26 @@ type Config struct {
 	sourceId string
 
 	// Start the publishing thread?
-	start_publishing_thread bool
+	// default = true
+	startPublishingThread bool
 
 	// How often should the events being sent to Samsara
 	// in milliseconds.
 	// default = 30s
-	publish_interval_ms uint32
+	publishInterval uint32
 
 	// Max size of the buffer.
 	// When buffer is full older events are dropped.
-	max_buffer_size int64
+	maxBufferSize int64
 
 	// Minimum number of events that must be in the buffer
 	// before attempting to publish them.
-	min_buffer_size int64
+	minBufferSize int64
 
 	// Network timeout for send operations
 	// in milliseconds.
 	// default 30s
-	send_timeout_ms uint32
+	sendTimeout uint32
 
 	// Should the payload be compressed?
 	// allowed values :gzip, :none
@@ -43,42 +44,42 @@ type Config struct {
 	// this helps you to understand whether the
 	// buffer size and publish-intervals are
 	// adequately configured.
-	// send_client_stats bool
+	// sendClientStats bool
 }
 
-// Creates a new Config with all default values.
+// NewConfig creates a new Config with all default values.
 // Later you may want to replace them with specific values.
 func NewConfig() Config {
 	config := Config{}
 	config.url = ""
 	config.sourceId = ""
-	config.start_publishing_thread = true
-	config.publish_interval_ms = 30000
-	config.max_buffer_size = 10000
-	config.min_buffer_size = 100
-	config.send_timeout_ms = 30000
+	config.startPublishingThread = true
+	config.publishInterval = 30000
+	config.maxBufferSize = 10000
+	config.minBufferSize = 100
+	config.sendTimeout = 30000
 	config.compression = "gzip"
-	//config.send_client_stats = true
+	//config.sendClientStats = true
 	return config
 }
 
-// Validates given configuration values.
+// Validate validates given configuration values.
 func (c *Config) Validate() error {
 	switch {
 	case len(c.url) == 0:
 		return ConfigValidationError{"URL for Ingestion API should be specified."}
 	case c.compression != "gzip" && c.compression != "none":
 		return ConfigValidationError{"Incorrect compression option."}
-	case c.publish_interval_ms <= 0:
+	case c.publishInterval <= 0:
 		return ConfigValidationError{"Invalid interval time for Samsara client."}
-	case c.max_buffer_size < c.min_buffer_size:
-		return ConfigValidationError{"max_buffer_size can not be less than min_buffer_size."}
+	case c.maxBufferSize < c.minBufferSize:
+		return ConfigValidationError{"maxBufferSize can not be less than minBufferSize."}
 	default:
 		return nil
 	}
 }
 
-// Generates current timestamp.
-func timestamp() int64 {
+// Timestamp generates current timestamp.
+func Timestamp() int64 {
 	return time.Now().UnixNano() / 1000000
 }
